@@ -1,6 +1,8 @@
 # %%
 """Problem Sheet 2."""
 
+from __future__ import annotations
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -19,14 +21,46 @@ n_samples = len(digits.images)
 data = digits.images.reshape((n_samples, -1))
 
 
-class RandomGuessClassifier(BaseEstimator):  # noqa: D101
-    def fit(self, X, y) -> None:  # noqa: ANN001, ARG002, D102, N803
-        # Store unique classes from y to randomly select from them
+class RandomGuessClassifier(BaseEstimator):
+    """A classifier that makes random guesses.
+
+    This classifier randomly selects from the unique classes found in the
+    training data during the `fit` method and then uses these classes to
+    make random predictions for each sample in the test data.
+
+    Attributes:
+        classes_ (np.ndarray): Array of unique classes derived from the training labels.
+        rng (np.random.Generator): Random number generator instance for creating predictions.
+    """
+
+    def __init__(self, random_state: int | None = None) -> None:
+        """Initializes the RandomGuessClassifier with a random seed.
+
+        Args:
+            random_state (Optional[int]): Seed for the random number generator.
+                Defaults to None for randomness.
+        """
+        self.rng = np.random.default_rng(random_state)
+
+    def fit(self, _: np.array, y: np.array) -> None:
+        """Fits the classifier by storing unique classes from y.
+
+        Args:
+            _ (array-like): Training data of shape (n_samples, n_features).
+            y (array-like): Training labels of shape (n_samples,).
+        """
         self.classes_ = np.unique(y)
 
-    def predict(self, X):  # noqa: ANN001, ANN201, D102, N803
-        # Return random choices from available classes
-        return np.random.choice(self.classes_, size=len(X))  # noqa: NPY002
+    def predict(self, x: np.array) -> np.ndarray:
+        """Predicts random classes for each sample in X.
+
+        Args:
+            x (array-like): Data to predict, shape (n_samples, n_features).
+
+        Returns:
+            np.ndarray: Randomly chosen predictions of shape (n_samples,).
+        """
+        return self.rng.choice(self.classes_, size=len(x))
 
 
 # Models and parameters to experiment with

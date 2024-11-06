@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_scm"]  # Build requirements
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "M1"
+version = "0.1.0"
+requires-python = ">=3.8"
+
+dependencies = [
+  "ipython",
+  "jupyter",
+  "numpy",
+  "matplotlib",
+  "pandas",
+  "resample",
+  "seaborn",
+  "scikit-learn",
+  "ruff",
+  "loguru"
+]
+
+
+
+authors = [
+  {name = "Lucas Curtin", email = "lucas.curtin@gmail.com"}
+]
+
+
+description = "Personal package holder for the M1 Module. May be extended to future machine learning classes."
